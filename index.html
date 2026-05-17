@@ -3,9 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hiroshima y Nagasaki</title>
+    <title>Hiroshima y Nagasaki — El Legado Atómico</title>
+    <meta name="description" content="Una presentación interactiva sobre las bombas atómicas de Hiroshima y Nagasaki: historia, impacto y reflexión. Datos históricos verificados presentados con un diseño cinematográfico.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <h1>Hola putas </h1>
+
+    <!-- ═══════════════ LOADING SCREEN ═══════════════ -->
+    <div id="loader" class="loader">
+        <div class="loader__inner">
+            <div class="loader__symbol">
+                <svg viewBox="0 0 100 100" class="loader__svg">
+                    <circle cx="50" cy="50" r="40" class="loader__circle" />
+                    <circle cx="50" cy="50" r="25" class="loader__circle loader__circle--inner" />
+                    <circle cx="50" cy="50" r="10" class="loader__circle loader__circle--core" />
+                </svg>
+            </div>
+            <p class="loader__text">Cargando historia...</p>
+        </div>
+    </div>
+
+    <!-- ═══════════════ NAVIGATION ═══════════════ -->
+    <nav id="nav" class="nav">
+        <div class="nav__logo">
+            <span class="nav__logo-year">1945</span>
+        </div>
+        <div class="nav__progress">
+            <div class="nav__progress-bar" id="progressBar"></div>
+        </div>
+        <div class="nav__links">
+            <button class="nav__link active" data-section="0">Inicio</button>
+            <button class="nav__link" data-section="1">Contexto</button>
+            <button class="nav__link" data-section="2">Hiroshima</button>
+            <button class="nav__link" data-section="3">Nagasaki</button>
+            <button class="nav__link" data-section="4">Consecuencias</button>
+            <button class="nav__link" data-section="5">Legado</button>
+        </div>
+    </nav>
+
+    <!-- ═══════════════ SOUND TOGGLE ═══════════════ -->
+    <button id="soundToggle" class="sound-toggle" aria-label="Alternar sonido ambiental">
+        <svg viewBox="0 0 24 24" class="sound-toggle__icon sound-toggle__icon--on">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 8.5v7a4.49 4.49 0 002.5-3.5zM14 3.23v2.06a6.5 6.5 0 010 13.42v2.06A8.5 8.5 0 0014 3.23z"/>
+        </svg>
+        <svg viewBox="0 0 24 24" class="sound-toggle__icon sound-toggle__icon--off">
+            <path d="M16.5 12A4.5 4.5 0 0014 8.5v2.09l2.39 2.39c.07-.3.11-.61.11-.98zM19 12a6.49 6.49 0 01-.78 3.11l1.46 1.46A8.5 8.5 0 0019 12zm-7-9l-3.32 3.32L12 9.68V3zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25a6.92 6.92 0 01-2.25 1.32v2.06a8.99 8.99 0 003.69-2.06L19.73 21 21 19.73l-9-9L4.27 3z"/>
+        </svg>
+    </button>
+
+    <!-- ═══════════════ HORIZONTAL SCROLL WRAPPER ═══════════════ -->
+    <div id="horizontalWrapper" class="horizontal-wrapper">
+        <div id="horizontalTrack" class="horizontal-track">
+
+            <!-- ═══════════ PANEL 0: HERO / INTRO ═══════════ -->
+            <section class="panel panel--hero" id="panel-0">
+                <div class="panel__bg-overlay"></div>
+                <div class="hero__particles" id="heroParticles"></div>
+                <div class="hero__content">
+                    <div class="hero__date" id="heroDate">
+                        <span class="hero__date-day">6</span>
+                        <span class="hero__date-separator"></span>
+                        <span class="hero__date-month">Agosto</span>
+                        <span class="hero__date-year">1945</span>
+                    </div>
+                    <h1 class="hero__title" id="heroTitle">
+                        <span class="hero__title-line">Hiroshima</span>
+                        <span class="hero__title-ampersand">&</span>
+                        <span class="hero__title-line">Nagasaki</span>
+                    </h1>
+                    <p class="hero__subtitle" id="heroSubtitle">El amanecer de la era atómica y la tragedia que cambió la humanidad para siempre</p>
+                    <div class="hero__scroll-cue" id="heroScrollCue">
+                        <span>Desliza para explorar</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="hero__image-frame" id="heroImageFrame">
+                    <img src="assets/hiroshima_cloud.png" alt="Nube de hongo sobre Hiroshima, 6 de agosto de 1945" class="hero__image" loading="eager">
+                    <div class="hero__image-caption">Fotografía documental — Hiroshima, 1945</div>
+                </div>
+            </section>
+
+            <!-- ═══════════ PANEL 1: CONTEXTO HISTÓRICO ═══════════ -->
+            <section class="panel panel--context" id="panel-1">
+                <div class="panel__bg-overlay"></div>
+                <div class="context__grid">
+                    <div class="context__text-block" id="contextText">
+                        <span class="section-label">01 — Contexto Histórico</span>
+                        <h2 class="section-title">El Proyecto<br><em>Manhattan</em></h2>
+                        <p class="section-body">
+                            En 1939, Albert Einstein advirtió al presidente Roosevelt sobre el potencial 
+                            de una bomba atómica. Esto desencadenó el <strong>Proyecto Manhattan</strong>, 
+                            un programa secreto que empleó a más de <strong>125,000 personas</strong> y costó 
+                            aproximadamente <strong>$2 mil millones de dólares</strong> (equivalente a $28 mil 
+                            millones actuales).
+                        </p>
+                        <p class="section-body">
+                            Dirigido por el físico <strong>J. Robert Oppenheimer</strong>, el proyecto logró 
+                            la primera detonación nuclear exitosa el <strong>16 de julio de 1945</strong> en la 
+                            prueba Trinity, Nuevo México. La era atómica había comenzado.
+                        </p>
+                    </div>
+                    <div class="context__timeline" id="contextTimeline">
+                        <div class="timeline__item" data-year="1939">
+                            <span class="timeline__year">1939</span>
+                            <p class="timeline__desc">Einstein envía su carta a Roosevelt advirtiendo sobre la fisión nuclear</p>
+                        </div>
+                        <div class="timeline__item" data-year="1942">
+                            <span class="timeline__year">1942</span>
+                            <p class="timeline__desc">Se establece oficialmente el Proyecto Manhattan bajo el Cuerpo de Ingenieros del Ejército</p>
+                        </div>
+                        <div class="timeline__item" data-year="1945-jul">
+                            <span class="timeline__year">Jul 1945</span>
+                            <p class="timeline__desc">Prueba Trinity: primera detonación nuclear exitosa en Alamogordo, Nuevo México</p>
+                        </div>
+                        <div class="timeline__item" data-year="1945-jul-26">
+                            <span class="timeline__year">26 Jul</span>
+                            <p class="timeline__desc">Declaración de Potsdam: ultimátum a Japón exigiendo rendición incondicional</p>
+                        </div>
+                        <div class="timeline__item" data-year="1945-ago">
+                            <span class="timeline__year">Ago 1945</span>
+                            <p class="timeline__desc">Japón rechaza la Declaración de Potsdam. Se autoriza el uso de armas atómicas</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════ PANEL 2: HIROSHIMA ═══════════ -->
+            <section class="panel panel--hiroshima" id="panel-2">
+                <div class="panel__bg-overlay"></div>
+                <div class="hiroshima__layout">
+                    <div class="hiroshima__header" id="hiroshimaHeader">
+                        <span class="section-label">02 — Hiroshima</span>
+                        <h2 class="section-title">Little Boy<br><em>6 de Agosto, 1945</em></h2>
+                    </div>
+                    <div class="hiroshima__stats" id="hiroshimaStats">
+                        <div class="stat-card">
+                            <div class="stat-card__icon">
+                                <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" stroke="currentColor" fill="none" stroke-width="1.5"/><circle cx="24" cy="24" r="8" fill="currentColor" opacity="0.3"/></svg>
+                            </div>
+                            <div class="stat-card__number" data-count="80000">80,000</div>
+                            <div class="stat-card__label">Muertos instantáneamente</div>
+                            <div class="stat-card__note">Se estima que 140,000 murieron para finales de 1945</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__icon">
+                                <svg viewBox="0 0 48 48"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" fill="none" stroke-width="1.5"/><line x1="8" y1="24" x2="40" y2="24" stroke="currentColor" stroke-width="1"/><line x1="24" y1="8" x2="24" y2="40" stroke="currentColor" stroke-width="1"/></svg>
+                            </div>
+                            <div class="stat-card__number">13 kt</div>
+                            <div class="stat-card__label">Potencia equivalente TNT</div>
+                            <div class="stat-card__note">Bomba de uranio-235, tipo "cañón"</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__icon">
+                                <svg viewBox="0 0 48 48"><path d="M24 4 L44 24 L24 44 L4 24 Z" stroke="currentColor" fill="none" stroke-width="1.5"/></svg>
+                            </div>
+                            <div class="stat-card__number">1.6 km</div>
+                            <div class="stat-card__label">Radio de destrucción total</div>
+                            <div class="stat-card__note">El 69% de los edificios fue destruido</div>
+                        </div>
+                    </div>
+                    <div class="hiroshima__narrative" id="hiroshimaNarrative">
+                        <div class="narrative__block">
+                            <h3 class="narrative__time">08:15 AM</h3>
+                            <p class="narrative__text">
+                                El bombardero B-29 <strong>"Enola Gay"</strong>, pilotado por el coronel Paul Tibbets, 
+                                lanzó "Little Boy" sobre el centro de Hiroshima. La bomba detonó a 
+                                <strong>580 metros de altitud</strong> sobre el Hospital Shima, generando una 
+                                bola de fuego con temperaturas superiores a <strong>1 millón de grados Celsius</strong>.
+                            </p>
+                        </div>
+                        <div class="narrative__block">
+                            <h3 class="narrative__time">08:16 AM</h3>
+                            <p class="narrative__text">
+                                La onda expansiva viajó a <strong>1,000 km/h</strong>, destruyendo todo en un radio 
+                                de 1.6 kilómetros. La radiación térmica causó quemaduras letales hasta a 3.5 km 
+                                del epicentro. El <strong>"kuroi ame"</strong> (lluvia negra) cayó durante horas, 
+                                contaminando agua y alimentos con material radiactivo.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Mapa de Destrucción de Hiroshima -->
+                    <div class="destruction-map" id="hiroshimaMap">
+                        <svg viewBox="0 0 300 300" class="destruction-map__svg">
+                            <!-- Epicentro -->
+                            <circle cx="150" cy="150" r="150" fill="rgba(139, 58, 58, 0.05)" class="destruction-zone destruction-zone--total"/>
+                            <!-- 1.6km de destrucción total -->
+                            <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(196, 168, 130, 0.3)" stroke-width="2" stroke-dasharray="5,5" class="destruction-ring"/>
+                            <!-- Zona de severa destrucción -->
+                            <circle cx="150" cy="150" r="75" fill="rgba(139, 58, 58, 0.15)" class="destruction-zone destruction-zone--severe"/>
+                            <!-- Punto de detonación -->
+                            <circle cx="150" cy="150" r="8" fill="#c4a882" class="detonation-point" filter="url(#glow)"/>
+                            <!-- Onda expansiva (animada) -->
+                            <circle cx="150" cy="150" r="30" fill="none" stroke="#c4a882" stroke-width="2" opacity="0.6" class="shockwave"/>
+                            <!-- Hospital Shima (punto de referencia) -->
+                            <rect x="145" y="145" width="10" height="10" fill="#8b3a3a" opacity="0.4" class="landmark"/>
+                            <!-- Definición de filtro de brillo -->
+                            <defs>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                        </svg>
+                        <div class="destruction-map__legend">
+                            <div class="map-legend__item">
+                                <span class="map-legend__dot" style="background: rgba(196, 168, 130, 0.3);"></span>
+                                <span>Destrucción Total (1.6 km)</span>
+                            </div>
+                            <div class="map-legend__item">
+                                <span class="map-legend__dot" style="background: rgba(139, 58, 58, 0.15);"></span>
+                                <span>Daño Severo</span>
+                            </div>
+                            <div class="map-legend__item">
+                                <span class="map-legend__dot" style="background: #c4a882;"></span>
+                                <span>Punto de detonación (580m)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════ PANEL 3: NAGASAKI ═══════════ -->
+            <section class="panel panel--nagasaki" id="panel-3">
+                <div class="panel__bg-overlay"></div>
+                <div class="nagasaki__layout">
+                    <div class="nagasaki__header" id="nagasakiHeader">
+                        <span class="section-label">03 — Nagasaki</span>
+                        <h2 class="section-title">Fat Man<br><em>9 de Agosto, 1945</em></h2>
+                    </div>
+                    <div class="nagasaki__split">
+                        <div class="nagasaki__story" id="nagasakiStory">
+                            <p class="section-body">
+                                Tres días después de Hiroshima, el B-29 <strong>"Bockscar"</strong>, pilotado 
+                                por el mayor Charles Sweeney, despegó con destino a la ciudad de 
+                                <strong>Kokura</strong>. Sin embargo, la nubosidad obligó a cambiar el objetivo 
+                                al blanco secundario: <strong>Nagasaki</strong>.
+                            </p>
+                            <p class="section-body">
+                                A las <strong>11:02 AM</strong>, "Fat Man" detonó a 503 metros de altitud sobre 
+                                el valle de Urakami. Con una potencia de <strong>21 kilotones</strong>, la explosión 
+                                fue más poderosa que la de Hiroshima, pero la topografía montañosa de Nagasaki 
+                                confinó parcialmente la onda expansiva.
+                            </p>
+                            <p class="section-body">
+                                Aun así, aproximadamente <strong>40,000 personas</strong> murieron instantáneamente 
+                                y otras <strong>40,000</strong> más fallecerían en los meses siguientes. La catedral 
+                                de Urakami, el edificio cristiano más grande de Asia Oriental, fue completamente destruida.
+                            </p>
+                        </div>
+                        <div class="nagasaki__data-ring" id="nagasakiDataRing">
+                            <div class="data-ring">
+                                <svg viewBox="0 0 200 200" class="data-ring__svg">
+                                    <circle cx="100" cy="100" r="90" class="data-ring__bg"/>
+                                    <circle cx="100" cy="100" r="90" class="data-ring__fill" data-percent="57"/>
+                                    <circle cx="100" cy="100" r="70" class="data-ring__bg"/>
+                                    <circle cx="100" cy="100" r="70" class="data-ring__fill data-ring__fill--inner" data-percent="69"/>
+                                </svg>
+                                <div class="data-ring__center">
+                                    <span class="data-ring__value">21 kt</span>
+                                    <span class="data-ring__sub">Fat Man</span>
+                                </div>
+                            </div>
+                            <div class="data-ring__legend">
+                                <div class="data-ring__legend-item">
+                                    <span class="data-ring__dot data-ring__dot--outer"></span>
+                                    <span>57% de la ciudad destruida</span>
+                                </div>
+                                <div class="data-ring__legend-item">
+                                    <span class="data-ring__dot data-ring__dot--inner"></span>
+                                    <span>69% de la zona industrial arrasada</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mapa de Destrucción de Nagasaki -->
+                    <div class="destruction-map" id="nagasakiMap">
+                        <svg viewBox="0 0 300 300" class="destruction-map__svg">
+                            <!-- Epicentro con topografía montañosa -->
+                            <circle cx="150" cy="150" r="150" fill="rgba(139, 58, 58, 0.04)" class="destruction-zone destruction-zone--total"/>
+                            <!-- 2.5km de destrucción (mayor potencia) -->
+                            <circle cx="150" cy="150" r="120" fill="none" stroke="rgba(196, 168, 130, 0.3)" stroke-width="2" stroke-dasharray="5,5" class="destruction-ring"/>
+                            <!-- Zona de severa destrucción (confinada por montañas) -->
+                            <ellipse cx="150" cy="150" rx="85" ry="70" fill="rgba(139, 58, 58, 0.2)" class="destruction-zone destruction-zone--severe"/>
+                            <!-- Punto de detonación -->
+                            <circle cx="150" cy="150" r="10" fill="#c4a882" class="detonation-point" filter="url(#glow2)"/>
+                            <!-- Onda expansiva (animada) -->
+                            <circle cx="150" cy="150" r="35" fill="none" stroke="#c4a882" stroke-width="2" opacity="0.6" class="shockwave"/>
+                            <!-- Valle de Urakami -->
+                            <path d="M 100 150 Q 150 180 200 150" fill="none" stroke="rgba(196, 168, 130, 0.2)" stroke-width="1.5" opacity="0.5" class="valley"/>
+                            <!-- Catedral de Urakami (punto de referencia) -->
+                            <path d="M 150 140 L 155 155 L 145 155 Z" fill="#8b3a3a" opacity="0.5" class="landmark"/>
+                            <!-- Definición de filtro de brillo -->
+                            <defs>
+                                <filter id="glow2">
+                                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                        </svg>
+                        <div class="destruction-map__legend">
+                            <div class="map-legend__item">
+                                <span class="map-legend__dot" style="background: rgba(196, 168, 130, 0.3);"></span>
+                                <span>Destrucción Total (2.5 km)</span>
+                            </div>
+                            <div class="map-legend__item">
+                                <span class="map-legend__dot" style="background: rgba(139, 58, 58, 0.2);"></span>
+                                <span>Daño Severo (confinado)</span>
+                            </div>
+                            <div class="map-legend__item">
+                                <span class="map-legend__dot" style="background: #c4a882;"></span>
+                                <span>Punto de detonación (503m)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════ PANEL 4: CONSECUENCIAS ═══════════ -->
+            <section class="panel panel--aftermath" id="panel-4">
+                <div class="panel__bg-overlay"></div>
+                <div class="aftermath__layout">
+                    <div class="aftermath__header" id="aftermathHeader">
+                        <span class="section-label">04 — Consecuencias</span>
+                        <h2 class="section-title">El precio de<br><em>la destrucción</em></h2>
+                    </div>
+                    <div class="aftermath__cards" id="aftermathCards">
+                        <div class="aftermath-card">
+                            <div class="aftermath-card__number">01</div>
+                            <h3 class="aftermath-card__title">Hibakusha</h3>
+                            <p class="aftermath-card__text">
+                                Los sobrevivientes, conocidos como <strong>hibakusha</strong> (被爆者), sufrieron 
+                                discriminación social, enfermedades por radiación, leucemia y cáncer durante 
+                                décadas. Japón reconoce oficialmente a más de <strong>650,000 hibakusha</strong>.
+                            </p>
+                        </div>
+                        <div class="aftermath-card">
+                            <div class="aftermath-card__number">02</div>
+                            <h3 class="aftermath-card__title">Rendición de Japón</h3>
+                            <p class="aftermath-card__text">
+                                El <strong>15 de agosto de 1945</strong>, el emperador Hirohito anunció la 
+                                rendición incondicional de Japón en una transmisión de radio sin precedentes. 
+                                La firma formal se realizó el <strong>2 de septiembre</strong> a bordo del USS Missouri.
+                            </p>
+                        </div>
+                        <div class="aftermath-card">
+                            <div class="aftermath-card__number">03</div>
+                            <h3 class="aftermath-card__title">Carrera Nuclear</h3>
+                            <p class="aftermath-card__text">
+                                Los bombardeos iniciaron la <strong>Guerra Fría</strong> y una carrera armamentística 
+                                nuclear. En su punto máximo, los arsenales mundiales superaron las 
+                                <strong>70,000 ojivas nucleares</strong>. El miedo a la aniquilación total definió 
+                                la geopolítica durante cuatro décadas.
+                            </p>
+                        </div>
+                        <div class="aftermath-card">
+                            <div class="aftermath-card__number">04</div>
+                            <h3 class="aftermath-card__title">Efectos Radiológicos</h3>
+                            <p class="aftermath-card__text">
+                                La <strong>Comisión de Víctimas de la Bomba Atómica</strong> (ABCC) documentó 
+                                efectos a largo plazo: aumento del 46% en leucemia, cataratas, trastornos 
+                                tiroideos, y efectos psicológicos profundos en generaciones posteriores.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="aftermath__total" id="aftermathTotal">
+                        <div class="aftermath__total-number">
+                            <span class="counter" data-target="214000">0</span>
+                        </div>
+                        <div class="aftermath__total-label">Víctimas estimadas totales para finales de 1945</div>
+                        <div class="aftermath__total-source">Fuente: Radiation Effects Research Foundation (RERF)</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════ PANEL 5: LEGADO / REFLEXIÓN ═══════════ -->
+            <section class="panel panel--legacy" id="panel-5">
+                <div class="panel__bg-overlay"></div>
+                <div class="legacy__layout">
+                    <div class="legacy__header" id="legacyHeader">
+                        <span class="section-label">05 — Legado y Reflexión</span>
+                        <h2 class="section-title">Nunca más<br><em>忘れない</em></h2>
+                    </div>
+                    <div class="legacy__content" id="legacyContent">
+                        <div class="legacy__quote">
+                            <blockquote>
+                                "Ahora me he convertido en la Muerte, el destructor de mundos."
+                            </blockquote>
+                            <cite>— J. Robert Oppenheimer, citando el Bhagavad Gita</cite>
+                        </div>
+                        <div class="legacy__pillars">
+                            <div class="legacy-pillar">
+                                <div class="legacy-pillar__icon">
+                                    <svg viewBox="0 0 48 48"><path d="M24 4C13 4 4 13 4 24s9 20 20 20 20-9 20-20S35 4 24 4zm0 36c-8.8 0-16-7.2-16-16S15.2 8 24 8s16 7.2 16 16-7.2 16-16 16z" fill="currentColor" opacity="0.3"/><path d="M24 14v10l8 4" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+                                </div>
+                                <h3>Memoria Histórica</h3>
+                                <p>El Parque Memorial de la Paz de Hiroshima, Patrimonio UNESCO desde 1996, recibe más de 1 millón de visitantes anuales.</p>
+                            </div>
+                            <div class="legacy-pillar">
+                                <div class="legacy-pillar__icon">
+                                    <svg viewBox="0 0 48 48"><path d="M24 4l-6 18H4l14 10-6 18 12-10 12 10-6-18 14-10H30z" stroke="currentColor" fill="none" stroke-width="1.5"/></svg>
+                                </div>
+                                <h3>Desarme Nuclear</h3>
+                                <p>El Tratado sobre la Prohibición de las Armas Nucleares (TPNW) entró en vigor en 2021, pero las potencias nucleares aún no lo han ratificado.</p>
+                            </div>
+                            <div class="legacy-pillar">
+                                <div class="legacy-pillar__icon">
+                                    <svg viewBox="0 0 48 48"><path d="M24 4C13 4 4 13 4 24s9 20 20 20" stroke="currentColor" fill="none" stroke-width="1.5"/><path d="M24 44c11 0 20-9 20-20S35 4 24 4" stroke="currentColor" fill="none" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="24" cy="24" r="4" fill="currentColor" opacity="0.4"/></svg>
+                                </div>
+                                <h3>Sadako y las Grullas</h3>
+                                <p>Sadako Sasaki, hibakusha de 2 años, murió de leucemia a los 12. Su historia de las 1,000 grullas de papel se convirtió en símbolo mundial de paz.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="legacy__closing" id="legacyClosing">
+                        <div class="closing__cranes">
+                            <div class="crane crane--1">鶴</div>
+                            <div class="crane crane--2">鶴</div>
+                            <div class="crane crane--3">鶴</div>
+                            <div class="crane crane--4">鶴</div>
+                            <div class="crane crane--5">鶴</div>
+                        </div>
+                        <p class="closing__message">
+                            Esta presentación honra la memoria de todas las víctimas. 
+                            Que la historia nos recuerde el costo de la guerra y la importancia de la paz.
+                        </p>
+                        <p class="closing__japanese">平和 — Heiwa — Paz</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- ═══════════════ SCRIPTS ═══════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
